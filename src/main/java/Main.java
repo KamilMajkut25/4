@@ -13,7 +13,7 @@ class Main {
       System.out.print("Wybierz opcję: ");
       
       int choice = scanner.nextInt();
-      scanner.nextLine(); // consume newline
+      scanner.nextLine(); 
       
       if (choice == 1) {
         System.out.println("Podaj imię studenta:");
