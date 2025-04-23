@@ -16,18 +16,13 @@ public class Service {
   }
 
   public Collection<Student> getStudents() throws IOException {
-    var ret = new ArrayList<Student>();
     var f = new FileReader("db.txt");
     var reader = new BufferedReader(f);
-    String line = "";
-    while (true) {
-      line = reader.readLine();
-      if(line == null)
-        break;
-      ret.add(Student.Parse(line));
-    }
+    var students = reader.lines()
+                        .map(Student::Parse)
+                        .toList();
     reader.close();
-    return ret;
+    return students;
   }
 
   public Student findStudentByName(String name) {
