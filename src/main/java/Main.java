@@ -10,23 +10,36 @@ class Main {
       
       System.out.println("1 - Dodaj studenta");
       System.out.println("2 - Wyświetl wszystkich studentów");
+      System.out.println("3 - Zakończ program");
       System.out.print("Wybierz opcję: ");
       
       int choice = scanner.nextInt();
       scanner.nextLine(); 
       
-      if (choice == 1) {
-        System.out.println("Podaj imię studenta:");
-        String name = scanner.nextLine();
-        
-        System.out.println("Podaj wiek studenta:");
-        int age = scanner.nextInt();
-        
-        s.addStudent(new Student(name, age));
-        System.out.println("Dodano studenta!");
-      } else if (choice == 2) {
-        System.out.println("Lista wszystkich studentów:");
-        s.getStudents().forEach(student -> System.out.println(student.ToString()));
+      switch (choice) {
+        case 1:
+          System.out.println("Podaj imię studenta:");
+          String name = scanner.nextLine();
+          
+          System.out.println("Podaj wiek studenta:");
+          int age = scanner.nextInt();
+          
+          s.addStudent(new Student(name, age));
+          System.out.println("Dodano studenta!");
+          break;
+          
+        case 2:
+          System.out.println("Lista wszystkich studentów:");
+          s.getStudents().forEach(student -> System.out.println(student.ToString()));
+          break;
+          
+        case 3:
+          System.out.println("Program zakończony.");
+          System.exit(0);
+          break;
+          
+        default:
+          System.out.println("Nieprawidłowa opcja!");
       }
       
       scanner.close();
