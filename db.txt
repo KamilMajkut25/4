@@ -2,3 +2,5 @@ Krzysztof 20
 Janusz 40
 Krzysztof 20
 Janusz 40
+Gertruda 2
+Adrian 25

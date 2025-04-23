@@ -9,21 +9,21 @@ class Main {
       Scanner scanner = new Scanner(System.in);
       
       while (true) {
-        System.out.println("\n1. Add new student");
-        System.out.println("2. Show all students");
-        System.out.println("3. Exit");
-        System.out.print("Choose option: ");
+        System.out.println("\n1. Dodaj studenta");
+        System.out.println("2. Pokaż studentów");
+        System.out.println("3. wyjście");
+        System.out.print("Wybierz opcję: ");
         
         int choice = scanner.nextInt();
-        scanner.nextLine(); // clear buffer
+        scanner.nextLine(); 
         
         if (choice == 1) {
-          System.out.print("Enter student name: ");
+          System.out.print("Wpisz imię studenta: ");
           String name = scanner.nextLine();
-          System.out.print("Enter student age: ");
+          System.out.print("Wpisz wiek studenta: ");
           int age = scanner.nextInt();
           s.addStudent(new Student(name, age));
-          System.out.println("Student added successfully!");
+          System.out.println("Student dodany");
         } 
         else if (choice == 2) {
           var students = s.getStudents();
