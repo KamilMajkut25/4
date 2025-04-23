@@ -21,10 +21,13 @@ class Main {
           System.out.println("Podaj imię studenta:");
           String name = scanner.nextLine();
           
+          System.out.println("Podaj nazwisko studenta:");
+          String surname = scanner.nextLine();
+          
           System.out.println("Podaj wiek studenta:");
           int age = scanner.nextInt();
           
-          s.addStudent(new Student(name, age));
+          s.addStudent(new Student(name, surname, age));
           System.out.println("Dodano studenta!");
           break;
           
