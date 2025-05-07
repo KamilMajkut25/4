@@ -7,8 +7,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Service s = new Service();
-
-        while (true) {
+        
+        try {
+            while (true) {
             System.out.println("\n1. Dodaj studenta");
             System.out.println("2. Wyświetl wszystkich studentów");
             System.out.println("3. Znajdź studenta");
@@ -100,6 +101,9 @@ public class Main {
                 default:
                     System.out.println("Nieprawidłowa opcja!");
             }
+        }
+        } catch (IOException e) {
+            System.out.println("Błąd podczas operacji na pliku: " + e.getMessage());
         }
     }
 }
