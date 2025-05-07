@@ -27,4 +27,24 @@ public class Student {
       return new Student("Parse", "Error", -1, "01-01-1900");
     return new Student(data[0], data[1], Integer.parseInt(data[2]), data[3]);
   }
+  public String getName() {
+    return name;
+  }
+
+  public String getSurname() {
+    return surname;
+  }
+
+  public int getAge() {
+    return age;
+  }
+
+  public String getBirthDate() {
+    return birthDate;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("%s %s, wiek: %d, data urodzenia: %s", name, surname, age, birthDate);
+  }
 }
