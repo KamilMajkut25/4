@@ -41,7 +41,7 @@ class Main {
          
           String birthDate = String.format("%02d-%02d-%d", day, month, year);
           Student newStudent = new Student(name, surname, age, birthDate);
-
+          
           s.addStudent(newStudent);
           System.out.println("Dodano studenta!");
           break;
