@@ -1,15 +1,15 @@
 
 public class Student {
-  private String Name;
-  private String Surname;
-  private int Age;
-  private String BirthDate;
+  private String name;
+  private String surname;
+  private int age;
+  private String birthDate;
 
   public Student(String name, String surname, int age, String birthDate) {
-    Name = name;
-    Surname = surname;
-    Age = age;
-    BirthDate = birthDate;
+    this.name = name;
+    this.surname = surname;
+    this.age = age;
+    this.birthDate = birthDate;
   }
 
   public String GetName() {return Name;}
