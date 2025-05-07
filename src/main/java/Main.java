@@ -3,42 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-// Klasa Student
-class Student {
-    private String name;
-    private String surname;
-    private int age;
-    private String birthDate;
 
-    public Student(String name, String surname, int age, String birthDate) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.birthDate = birthDate;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Imię: %s, Nazwisko: %s, Wiek: %d, Data urodzenia: %s",
-                name, surname, age, birthDate);
-    }
-}
-
-// Klasa Service do zarządzania studentami
-class Service {
-    private List<Student> students = new ArrayList<>();
-
-    public void addStudent(Student student) {
-        students.add(student);
-    }
-
-    public List<Student> getStudents() {
-        return students;
-    }
-}
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Service s = new Service();
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
@@ -98,7 +66,7 @@ public class Main {
 
                 case 2:
                     System.out.println("Lista wszystkich studentów:");
-                    List<Student> students = s.getStudents();
+                    Collection<Student> students = s.getStudents();
                     if (students.isEmpty()) {
                         System.out.println("Brak zapisanych studentów.");
                     } else {
