@@ -25,7 +25,27 @@ public class Service {
     return students;
   }
 
-  public Student findStudentByName(String name) {
-    return null;
+  public List<Student> findStudentsByName(String name) throws IOException {
+    return getStudents().stream()
+        .filter(s -> s.getName().equalsIgnoreCase(name))
+        .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+  }
+
+  public List<Student> findStudentsBySurname(String surname) throws IOException {
+    return getStudents().stream()
+        .filter(s -> s.getSurname().equalsIgnoreCase(surname))
+        .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+  }
+
+  public List<Student> filterStudentsByAge(int age) throws IOException {
+    return getStudents().stream()
+        .filter(s -> s.getAge() == age)
+        .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+  }
+
+  public List<Student> filterStudentsByBirthMonth(int month) throws IOException {
+    return getStudents().stream()
+        .filter(s -> Integer.parseInt(s.getBirthDate().split("-")[1]) == month)
+        .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
   }
 }

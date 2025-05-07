@@ -12,13 +12,13 @@ public class Student {
     this.birthDate = birthDate;
   }
 
-  public String GetName() {return Name;}
-  public String GetSurname() {return Surname;}
-  public int GetAge() {return Age;}
-  public String GetBirthDate() {return BirthDate;}
+  public String GetName() {return name;}
+  public String GetSurname() {return surname;}
+  public int GetAge() {return age;}
+  public String GetBirthDate() {return birthDate;}
 
   public String ToString() {
-    return Name + " " + Surname + " " + Integer.toString(Age) + " " + BirthDate;
+    return name + " " + surname + " " + Integer.toString(age) + " " + birthDate;
   }
 
   public static Student Parse(String str) {
