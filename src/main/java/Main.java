@@ -1,68 +1,121 @@
-import java.io.IOException; 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-class Main {
-  public static void main(String[] args) {
-    try {
-      Service s = new Service();
-      Scanner scanner = new Scanner(System.in);
+// Klasa Student
+class Student {
+    private String name;
+    private String surname;
+    private int age;
+    private String birthDate;
 
-      System.out.println("1 - Dodaj studenta");
-      System.out.println("2 - Wyświetl wszystkich studentów");
-      System.out.println("3 - Zakończ program");
-      System.out.print("Wybierz opcję: ");
-
-      int choice = scanner.nextInt();
-      scanner.nextLine(); // konsumpcja nowej linii
-
-      switch (choice) {
-        case 1:
-          System.out.println("Podaj imię studenta:");
-          String name = scanner.nextLine();
-
-          System.out.println("Podaj nazwisko studenta:");
-          String surname = scanner.nextLine();
-
-          System.out.println("Podaj wiek studenta:");
-          int age = scanner.nextInt();
-          scanner.nextLine();
-          System.out.println("Podaj dzień urodzenia (1-31):");
-          int day = scanner.nextInt();
-          scanner.nextLine();
-
-          System.out.println("Podaj miesiąc urodzenia (1-12):");
-          int month = scanner.nextInt();
-          scanner.nextLine();
-
-          System.out.println("Podaj rok urodzenia (1900-2025):");
-          int year = scanner.nextInt();
-          scanner.nextLine();
-
-         
-          String birthDate = String.format("%02d-%02d-%d", day, month, year);
-          Student newStudent = new Student(name, surname, age, birthDate);
-          
-          s.addStudent(newStudent);
-          System.out.println("Dodano studenta!");
-          break;
-
-        case 2:
-          System.out.println("Lista wszystkich studentów:");
-          s.getStudents().forEach(student ->      System.out.println(student.ToString()));
-          break;
-
-        case 3:
-          System.out.println("Program zakończony.");
-          System.exit(0);
-          break;
-
-        default:
-          System.out.println("Nieprawidłowa opcja!");
-      }
-
-      scanner.close();
-    } catch (IOException e) {
-      System.out.println("Błąd: " + e.getMessage());
+    public Student(String name, String surname, int age, String birthDate) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.birthDate = birthDate;
     }
-  }
+
+    @Override
+    public String toString() {
+        return String.format("Imię: %s, Nazwisko: %s, Wiek: %d, Data urodzenia: %s",
+                name, surname, age, birthDate);
+    }
+}
+
+// Klasa Service do zarządzania studentami
+class Service {
+    private List<Student> students = new ArrayList<>();
+
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Service s = new Service();
+        Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
+
+        while (!exit) {
+            System.out.println("\nMenu:");
+            System.out.println("1 - Dodaj studenta");
+            System.out.println("2 - Wyświetl wszystkich studentów");
+            System.out.println("3 - Zakończ program");
+            System.out.print("Wybierz opcję: ");
+
+            int choice;
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine(); // konsumpcja nowej linii
+            } catch (Exception e) {
+                System.out.println("Nieprawidłowa wartość. Spróbuj ponownie.");
+                scanner.nextLine(); // czyścimy bufor
+                continue;
+            }
+
+            switch (choice) {
+                case 1:
+                    try {
+                        System.out.println("Podaj imię studenta:");
+                        String name = scanner.nextLine();
+
+                        System.out.println("Podaj nazwisko studenta:");
+                        String surname = scanner.nextLine();
+
+                        System.out.println("Podaj wiek studenta:");
+                        int age = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.println("Podaj dzień urodzenia (1-31):");
+                        int day = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.println("Podaj miesiąc urodzenia (1-12):");
+                        int month = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.println("Podaj rok urodzenia (1900-2025):");
+                        int year = scanner.nextInt();
+                        scanner.nextLine();
+
+                        String birthDate = String.format("%02d-%02d-%d", day, month, year);
+                        Student newStudent = new Student(name, surname, age, birthDate);
+
+                        s.addStudent(newStudent);
+                        System.out.println("Dodano studenta!");
+                    } catch (Exception e) {
+                        System.out.println("Wystąpił błąd podczas wprowadzania danych. Spróbuj ponownie.");
+                        scanner.nextLine(); // czyścimy bufor
+                    }
+                    break;
+
+                case 2:
+                    System.out.println("Lista wszystkich studentów:");
+                    List<Student> students = s.getStudents();
+                    if (students.isEmpty()) {
+                        System.out.println("Brak zapisanych studentów.");
+                    } else {
+                        students.forEach(student -> System.out.println(student.toString()));
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Program zakończony.");
+                    exit = true;
+                    break;
+
+                default:
+                    System.out.println("Nieprawidłowa opcja!");
+            }
+        }
+
+        scanner.close();
+    }
 }
