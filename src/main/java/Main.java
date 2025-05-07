@@ -21,10 +21,10 @@ public class Main {
             int choice;
             try {
                 choice = scanner.nextInt();
-                scanner.nextLine(); // konsumpcja nowej linii
+                scanner.nextLine(); 
             } catch (Exception e) {
                 System.out.println("Nieprawidłowa wartość. Spróbuj ponownie.");
-                scanner.nextLine(); // czyścimy bufor
+                scanner.nextLine(); 
                 continue;
             }
 
@@ -59,8 +59,8 @@ public class Main {
                         s.addStudent(newStudent);
                         System.out.println("Dodano studenta!");
                     } catch (Exception e) {
-                        System.out.println("Wystąpił błąd podczas wprowadzania danych. Spróbuj ponownie.");
-                        scanner.nextLine(); // czyścimy bufor
+                        System.out.println("Wystąpił błąd.");
+                        scanner.nextLine(); 
                     }
                     break;
 
