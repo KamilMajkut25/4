@@ -1,137 +1,101 @@
-import java.io.IOException; 
+import java.io.IOException;
 import java.util.Scanner;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Collection;
 
 class Main {
   public static void main(String[] args) {
     try {
       Service s = new Service();
       Scanner scanner = new Scanner(System.in);
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-      while(true) {
-        System.out.println("\n1 - Dodaj studenta");
+      boolean tak = true;
+      while (tak) {
+        System.out.println("\nWybierz opcję:");
+        System.out.println("1 - Dodaj studenta");
         System.out.println("2 - Wyświetl wszystkich studentów");
-        System.out.println("3 - Wyszukaj studentów");
-        System.out.println("4 - Zakończ program");
-        System.out.print("Wybierz opcję: ");
-
-        String choice = scanner.nextLine();
+        System.out.println("3 - Wyszukaj studentów po imieniu");
+        System.out.print("Twój wybór: ");
+        int choice = Integer.parseInt(scanner.nextLine());
 
         switch (choice) {
-          case "1":
-            System.out.println("Podaj imię studenta:");
+          case 1:
+            System.out.print("Podaj imię studenta: ");
             String name = scanner.nextLine();
 
-            System.out.println("Podaj nazwisko studenta:");
-            String surname = scanner.nextLine();
+            System.out.print("Podaj nazwisko studenta: ");
+            String lastname = scanner.nextLine();
 
-            System.out.println("Podaj wiek studenta:");
-            int age = Integer.parseInt(scanner.nextLine());
+            int age = 0;
+            boolean validAge = false;
+            while (!validAge) {
+              System.out.print("Podaj wiek studenta: ");
+              try {
+                age = Integer.parseInt(scanner.nextLine());
+                validAge = true;
+              } catch (NumberFormatException e) {
+                System.out.println("Wiek musi być liczbą. Spróbuj ponownie.");
+              }
+            }
 
-            System.out.println("Podaj dzień urodzenia (1-31):");
-            int day = Integer.parseInt(scanner.nextLine());
+            // Walidacja daty urodzenia
+            String birthDate = "";
+            boolean validDate = false;
+            while (!validDate) {
+              System.out.print("Podaj datę urodzenia studenta (dd-MM-yyyy): ");
+              String inputDate = scanner.nextLine();
+              try {
+                LocalDate date = LocalDate.parse(inputDate, formatter);
+                if (date.isAfter(LocalDate.now())) {
+                  System.out.println("Data urodzenia nie może być z przyszłości. Spróbuj ponownie.");
+                } else {
+                  birthDate = inputDate;
+                  validDate = true;
+                }
+              } catch (DateTimeParseException e) {
+                System.out.println("Niepoprawny format daty lub data nie istnieje. Spróbuj ponownie używając formatu dd-MM-yyyy.");
+              }
+            }
 
-            System.out.println("Podaj miesiąc urodzenia (1-12):");
-            int month = Integer.parseInt(scanner.nextLine());
-
-            System.out.println("Podaj rok urodzenia (1900-2025):");
-            int year = Integer.parseInt(scanner.nextLine());
-
-            String birthDate = String.format("%02d-%02d-%d", day, month, year);
-            Student newStudent = new Student(name, surname, age, birthDate);
-            s.addStudent(newStudent);
-            System.out.println("Dodano studenta!");
+            s.addStudent(new Student(name, lastname, age, birthDate));
+            System.out.println("Dodano studenta.");
             break;
 
-          case "2":
-            System.out.println("Lista wszystkich studentów:");
-            s.getStudents().forEach(student -> System.out.println(student.ToString()));
-            break;
-
-          case "3":
-            System.out.println("Wybierz kryterium wyszukiwania:");
-            System.out.println("a - według imienia");
-            System.out.println("b - według nazwiska");
-            System.out.println("c - według wieku");
-            System.out.println("d - według miesiąca urodzenia");
-            System.out.print("Wybierz opcję: ");
-            String searchChoice = scanner.nextLine();
-
-            switch (searchChoice.toLowerCase()) {
-              case "a":
-                System.out.println("Podaj imię:");
-                String searchName = scanner.nextLine();
-                List<Student> studentsByName = s.findStudentsByName(searchName);
-                if (studentsByName.isEmpty()) {
-                  System.out.println("Brak studentów o tym imieniu.");
-                } else {
-                  studentsByName.forEach(student -> System.out.println(student.toString()));
-                }
-                break;
-
-              case "b":
-                System.out.println("Podaj nazwisko:");
-                String searchSurname = scanner.nextLine();
-                List<Student> studentsBySurname = s.findStudentsBySurname(searchSurname);
-                if (studentsBySurname.isEmpty()) {
-                  System.out.println("Brak studentów o tym nazwisku.");
-                } else {
-                  studentsBySurname.forEach(student -> System.out.println(student.toString()));
-                }
-                break;
-
-              case "c":
-                System.out.println("Podaj wiek:");
-                try {
-                  int searchAge = Integer.parseInt(scanner.nextLine());
-                  List<Student> studentsByAge = s.filterStudentsByAge(searchAge);
-                  if (studentsByAge.isEmpty()) {
-                    System.out.println("Brak studentów o tym wieku.");
-                  } else {
-                    studentsByAge.forEach(student -> System.out.println(student.toString()));
-                  }
-                } catch (NumberFormatException e) {
-                  System.out.println("Nieprawidłowa wartość wieku.");
-                }
-                break;
-
-              case "d":
-                System.out.println("Podaj miesiąc urodzenia (1-12):");
-                try {
-                  int searchMonth = Integer.parseInt(scanner.nextLine());
-                  if (searchMonth < 1 || searchMonth > 12) {
-                    System.out.println("Nieprawidłowy miesiąc.");
-                    break;
-                  }
-                  List<Student> studentsByBirthMonth = s.filterStudentsByBirthMonth(searchMonth);
-                  if (studentsByBirthMonth.isEmpty()) {
-                    System.out.println("Brak studentów urodzonych w tym miesiącu.");
-                  } else {
-                    studentsByBirthMonth.forEach(student -> System.out.println(student.toString()));
-                  }
-                } catch (NumberFormatException e) {
-                  System.out.println("Nieprawidłowa wartość.");
-                }
-                break;
-
-              default:
-                System.out.println("Nieprawidłowy wybór kryterium.");
+          case 2:
+            Collection<Student> students = s.getStudents();
+            System.out.println("📋 Lista studentów:");
+            for (Student current : students) {
+              System.out.println(current.toString());
             }
             break;
 
-          case "4":
-            System.out.println("Do widzenia!");
-            scanner.close();
-            return;
+          case 3:
+            // Wyszukiwanie studentów po imieniu
+            System.out.print("Podaj imię do wyszukania: ");
+            String searchName = scanner.nextLine();
+            Collection<Student> foundStudents = s.findStudentByName(searchName);
+            if (foundStudents.isEmpty()) {
+              System.out.println("Brak studentów o podanym imieniu.");
+            } else {
+              System.out.println("Znaleziono następujących studentów:");
+              for (Student student : foundStudents) {
+                System.out.println(student);
+              }
+            }
+            break;
 
           default:
-            System.out.println("Nieprawidłowa opcja!");
+            System.out.println("Niepoprawna opcja. Spróbuj ponownie.");
+            break;
         }
       }
+      scanner.close();
+
     } catch (IOException e) {
-      System.out.println("Błąd podczas operacji na pliku: " + e.getMessage());
-    } catch (NumberFormatException e) {
-      System.out.println("Błąd: Wprowadzono nieprawidłową wartość liczbową.");
+      System.out.println("Wystąpił błąd: " + e.getMessage());
     }
   }
 }

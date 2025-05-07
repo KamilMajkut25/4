@@ -1,50 +1,59 @@
-
 public class Student {
-  private String name;
-  private String surname;
-  private int age;
-  private String birthDate;
+    private String name;
+    private String lastName;
+    private int age;
+    private String birthDate;
 
-  public Student(String name, String surname, int age, String birthDate) {
-    this.name = name;
-    this.surname = surname;
-    this.age = age;
-    this.birthDate = birthDate;
-  }
+    // Konstruktor z wszystkimi danymi
+    public Student(String name, String lastName, int age, String birthDate) {
+        this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+        this.birthDate = birthDate;
+    }
 
-  public String GetName() {return name;}
-  public String GetSurname() {return surname;}
-  public int GetAge() {return age;}
-  public String GetBirthDate() {return birthDate;}
+    // Konstruktor bezargumentowy (opcjonalny)
+    public Student() {
+        this.name = "";
+        this.lastName = "";
+        this.age = 0;
+        this.birthDate = "";
+    }
 
-  public String ToString() {
-    return name + " " + surname + " " + Integer.toString(age) + " " + birthDate;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public static Student Parse(String str) {
-    String[] data = str.split(" ");
-    if(data.length != 4) 
-      return new Student("Parse", "Error", -1, "01-01-1900");
-    return new Student(data[0], data[1], Integer.parseInt(data[2]), data[3]);
-  }
-  public String getName() {
-    return name;
-  }
+    public String getLastName() {
+        return lastName;
+    }
 
-  public String getSurname() {
-    return surname;
-  }
+    public int getAge() {
+        return age;
+    }
 
-  public int getAge() {
-    return age;
-  }
+    public String getBirthDate() {
+        return birthDate;
+    }
 
-  public String getBirthDate() {
-    return birthDate;
-  }
+    @Override
+    public String toString() {
+        return name + " " + lastName + " " + age + " " + birthDate;
+    }
 
-  @Override
-  public String toString() {
-    return String.format("%s %s, wiek: %d, data urodzenia: %s", name, surname, age, birthDate);
-  }
+   
+    public static Student parse(String str) {
+        String[] data = str.trim().split("\\s+");
+        if (data.length != 4) {
+          
+            return new Student("Parse", "Error", -1, "Parse Error");
+        }
+        try {
+            int age = Integer.parseInt(data[2]);
+            return new Student(data[0], data[1], age, data[3]);
+        } catch (NumberFormatException e) {
+           
+            return new Student("Parse", "Error", -1, "Parse Error");
+        }
+    }
 }
